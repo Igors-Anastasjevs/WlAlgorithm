@@ -1,7 +1,8 @@
 import mmh3
+import networkx as nx
 
 
-def wlalg(G, H, semfunc=lambda graph, node, neighbour: '{}'):
+def wlalg(G:nx.Graph, H:nx.Graph, semfunc=lambda graph, node, neighbour: '{}'):
     '''
     Tells if 2 graphs are isomorphic implementing the Weisfeiler-Lehman algorithm
     :param function pointer semfunc: semantic function, expected to work with a graph, a node
@@ -11,8 +12,8 @@ def wlalg(G, H, semfunc=lambda graph, node, neighbour: '{}'):
     :param networkx.Graph H: input graph
     :return: True if graphs are isomorphic, false otherwise
     '''
-    if (G.number_of_nodes() == H.number_of_nodes() and G.number_of_edges() == H.number_of_edges()):
-        if (getCanonicalForm(G, semfunc).keys() == getCanonicalForm(H, semfunc).keys()):
+    if G.number_of_nodes() == H.number_of_nodes() and G.number_of_edges() == H.number_of_edges():
+        if getCanonicalForm(G, semfunc) == getCanonicalForm(H, semfunc):
             return True
         else:
             return False
@@ -40,7 +41,7 @@ def similarity(M1, M2):
     return False
 
 
-def init(graph):
+def init(graph:nx.Graph):
     '''
     Initialises array maps and dictionary.
     In detail it returns array with dictionary with 0 as key and empty set as value in order to properly compare
@@ -75,6 +76,7 @@ def getColours(graph, neighbours, colours, i, node, semfunc):
     array.sort()
     for el in array:
         scolours += el
+    scolours = str(colours[node][i - 1])+scolours
     return scolours
 
 
@@ -128,5 +130,7 @@ def getCanonicalForm(graph, semfunc):
         i += 1
 
     maps[i - 1] = dict(sorted(maps[i - 1].items()))
-
-    return maps[i - 1]
+    Canonform = dict()
+    for key in maps[i-1].keys():
+        Canonform.update({key:len(maps[i-1][key])})
+    return Canonform

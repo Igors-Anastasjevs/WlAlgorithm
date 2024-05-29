@@ -1,11 +1,18 @@
 import unittest
-import sphinx
 import mmh3
 import numpy as np
 import WLalg
 import networkx as nx
-
+import WLaldShevarshidze as WLV2
 class MyTestCase(unittest.TestCase):
+
+    def testGetCanonicalForm(self):
+        G = nx.path_graph(5)
+        CG = WLalg.getCanonicalForm(G, lambda g,n,ne: '{}')
+        hash1 = mmh3.hash(str(mmh3.hash('11{}'))+str(mmh3.hash('11{}1{}'))+'{}')
+        hash2 = mmh3.hash(str(mmh3.hash('11{}1{}'))+str(mmh3.hash('11{}1{}'))+'{}'+str(mmh3.hash('11{}'))+'{}')
+        hash3 = mmh3.hash(str(mmh3.hash('11{}1{}'))+str(mmh3.hash('11{}1{}'))+'{}'+str(mmh3.hash('11{}1{}'))+'{}')
+        self.assertEqual({hash3: 1, hash2: 2, hash1: 2}, CG)
 
     def testSimilarity(self):
         M1 = {
@@ -57,28 +64,47 @@ class MyTestCase(unittest.TestCase):
                                           [0, 1, 0, 0],
                                           [1, 1, 0, 0]]), create_using=nx.DiGraph)
         self.assertFalse(WLalg.wlalg(g, h))
-    def testGetCanonicalForm(self):
-        G = nx.path_graph(5)
-        CG = WLalg.getCanonicalForm(G, lambda g,n,ne: '{}')
-        hash1 = mmh3.hash(str(mmh3.hash('1{}1{}'))+'{}')
-        hash2 = mmh3.hash(str(mmh3.hash('1{}'))+'{}'+str(mmh3.hash('1{}1{}'))+'{}')
-        hash3 = mmh3.hash(str(mmh3.hash('1{}1{}'))+'{}'+str(mmh3.hash('1{}1{}'))+'{}')
-        self.assertEqual({hash3: {2}, hash2: {1, 3}, hash1: {0, 4}}, CG)
 
     def testGetColours(self):
         G = nx.path_graph(5)
         scolours = WLalg.getColours(G, G.neighbors(1), {0: [1], 1: [1], 2: [1], 3: [1], 4: [1]}, 1, 1,lambda g,n,ne: '{}')
-        self.assertEqual('1{}1{}', scolours)
+        self.assertEqual('11{}1{}', scolours)
 
     def testColouringNodes(self):
         G = nx.path_graph(5)
         colours = WLalg.colouringNodes(G, {0: [1], 1: [1], 2: [1], 3: [1], 4: [1]}, 1, lambda g,n,ne: '{}')
-        self.assertEqual({0: [1, mmh3.hash('1{}')], 1: [1, mmh3.hash('1{}1{}')], 2: [1, mmh3.hash('1{}1{}')], 3: [1, mmh3.hash('1{}1{}')], 4: [1, mmh3.hash('1{}')]}, colours)
+        self.assertEqual({0: [1, mmh3.hash('11{}')], 1: [1, mmh3.hash('11{}1{}')],
+                          2: [1, mmh3.hash('11{}1{}')], 3: [1, mmh3.hash('11{}1{}')], 4: [1, mmh3.hash('11{}')]}, colours)
 
     def testSortingNodes(self):
         C = {0: [1, -1], 1: [1, -2], 2: [1, -2], 3: [1, -2], 4: [1, -1]}
         map = WLalg.sortingNodes(C, 1)
         self.assertEqual({-1: {0, 4}, -2: {1, 2, 3}},map)
+    def testShevashidze(self):
+
+        g = nx.path_graph(5)
+        h = g.copy()
+        self.assertTrue(WLV2.wlalgV2(g, h))
+        g = nx.from_numpy_array(np.array([[0, 1, 1, 0],
+                                          [1, 0, 0, 0],
+                                          [1, 0, 0, 1],
+                                          [0, 0, 1, 0]]), create_using=nx.DiGraph)
+        h = nx.from_numpy_array(np.array([[0, 0, 0, 1],
+                                          [0, 0, 1, 1],
+                                          [0, 1, 0, 0],
+                                          [1, 1, 0, 0]]), create_using=nx.DiGraph)
+        self.assertTrue(WLV2.wlalgV2(g, h))
+
+        g = nx.from_numpy_array(np.array([[0, 1, 1, 0],
+                                          [1, 0, 0, 1],
+                                          [1, 0, 0, 1],
+                                          [0, 0, 1, 0]]), create_using=nx.DiGraph)
+        h = nx.from_numpy_array(np.array([[0, 0, 0, 1],
+                                          [0, 0, 1, 1],
+                                          [0, 1, 0, 0],
+                                          [1, 1, 0, 0]]), create_using=nx.DiGraph)
+        self.assertFalse(WLV2.wlalgV2(g, h))
+
 
 if __name__ == '__main__':
     unittest.main()

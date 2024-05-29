@@ -6,18 +6,14 @@ import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
 import math
-G = nx.from_numpy_array(np.array([[0,1,0,0,0,0],
-                                  [1,0,0,1,1,0],
-                                  [0,0,0,1,0,1],
-                                  [0,1,1,0,0,1],
-                                  [0,1,0,0,0,1],
-                                  [0,0,1,1,1,0]]))
-H = nx.from_numpy_array(np.array([[0,1,1,0,0,1],
-                                  [1,0,0,0,0,0],
-                                  [1,0,0,1,0,0],
-                                  [0,0,1,0,1,1],
-                                  [0,0,0,1,0,1],
-                                  [1,0,0,1,1,0]]))
+g = nx.from_numpy_array(np.array([[0, 1, 1, 0],
+                                          [1, 0, 0, 0],
+                                          [1, 0, 0, 1],
+                                          [0, 0, 1, 0]]), create_using=nx.DiGraph)
+h = nx.from_numpy_array(np.array([[0, 0, 0, 1],
+                                          [0, 0, 1, 1],
+                                          [0, 1, 0, 0],
+                                          [1, 1, 0, 0]]), create_using=nx.DiGraph)
 #H = G.copy()
 '''data = dict()
 for size in range(30, 300):
@@ -29,7 +25,7 @@ for size in range(30, 300):
         WLalg.wlalg(G, H)
         end = time.time()
         data[size].append(end-start)'''
-print(WLalg.wlalg(G, H))
+print(WLalg.wlalg(g, h))
 '''
 with open('data.csv', 'w', newline='') as f:
     w = csv.writer(f, delimiter=';')
@@ -38,6 +34,7 @@ with open('data.csv', 'w', newline='') as f:
 '''
 nx.isomorphism.GraphMatcher
  #for drawing graph
+'''
 layout = nx.spring_layout(G)
 nx.draw(H, layout, with_labels=True)
 #labels = nx.get_edge_attributes(G, "weight")
@@ -45,5 +42,5 @@ nx.draw(H, layout, with_labels=True)
 plt.savefig("graphH.png")
 plt.clf()
 nx.draw(H, with_labels=True)
-plt.savefig("graphG.png")
+plt.savefig("graphG.png")'''
 
