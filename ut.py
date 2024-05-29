@@ -59,7 +59,7 @@ class MyTestCase(unittest.TestCase):
         self.assertFalse(WLalg.wlalg(g, h))
     def testGetCanonicalForm(self):
         G = nx.path_graph(5)
-        CG = WLalg.getCanonicalForm(G)
+        CG = WLalg.getCanonicalForm(G, lambda g,n,ne: '{}')
         hash1 = mmh3.hash(str(mmh3.hash('1{}1{}'))+'{}')
         hash2 = mmh3.hash(str(mmh3.hash('1{}'))+'{}'+str(mmh3.hash('1{}1{}'))+'{}')
         hash3 = mmh3.hash(str(mmh3.hash('1{}1{}'))+'{}'+str(mmh3.hash('1{}1{}'))+'{}')
@@ -67,12 +67,12 @@ class MyTestCase(unittest.TestCase):
 
     def testGetColours(self):
         G = nx.path_graph(5)
-        scolours = WLalg.getColours(G, G.neighbors(1), {0: [1], 1: [1], 2: [1], 3: [1], 4: [1]}, 1, 1)
+        scolours = WLalg.getColours(G, G.neighbors(1), {0: [1], 1: [1], 2: [1], 3: [1], 4: [1]}, 1, 1,lambda g,n,ne: '{}')
         self.assertEqual('1{}1{}', scolours)
 
     def testColouringNodes(self):
         G = nx.path_graph(5)
-        colours = WLalg.colouringNodes(G, {0: [1], 1: [1], 2: [1], 3: [1], 4: [1]}, 1)
+        colours = WLalg.colouringNodes(G, {0: [1], 1: [1], 2: [1], 3: [1], 4: [1]}, 1, lambda g,n,ne: '{}')
         self.assertEqual({0: [1, mmh3.hash('1{}')], 1: [1, mmh3.hash('1{}1{}')], 2: [1, mmh3.hash('1{}1{}')], 3: [1, mmh3.hash('1{}1{}')], 4: [1, mmh3.hash('1{}')]}, colours)
 
     def testSortingNodes(self):

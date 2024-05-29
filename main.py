@@ -5,15 +5,19 @@ import csv
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
-import unittest
-G = nx.from_numpy_array(np.array([[0,1,1,0],
-                                  [1,0,0,0],
-                                  [1,0,0,1],
-                                  [0,0,1,0]]),create_using=nx.DiGraph)
-H = nx.from_numpy_array(np.array([[0,0,0,1],
-                                  [0,0,1,1],
-                                  [0,1,0,0],
-                                  [1,1,0,0]]),create_using=nx.DiGraph)
+import math
+G = nx.from_numpy_array(np.array([[0,1,0,0,0,0],
+                                  [1,0,0,1,1,0],
+                                  [0,0,0,1,0,1],
+                                  [0,1,1,0,0,1],
+                                  [0,1,0,0,0,1],
+                                  [0,0,1,1,1,0]]))
+H = nx.from_numpy_array(np.array([[0,1,1,0,0,1],
+                                  [1,0,0,0,0,0],
+                                  [1,0,0,1,0,0],
+                                  [0,0,1,0,1,1],
+                                  [0,0,0,1,0,1],
+                                  [1,0,0,1,1,0]]))
 #H = G.copy()
 '''data = dict()
 for size in range(30, 300):
@@ -25,21 +29,21 @@ for size in range(30, 300):
         WLalg.wlalg(G, H)
         end = time.time()
         data[size].append(end-start)'''
-print(WLalg.wlalg(G,H))
-print(WLalg.getCanonicalForm(G), '\n', WLalg.getCanonicalForm(H))
+print(WLalg.wlalg(G, H))
 '''
 with open('data.csv', 'w', newline='') as f:
     w = csv.writer(f, delimiter=';')
     for key in data.keys():
         w.writerow([key]+data[key])
 '''
+nx.isomorphism.GraphMatcher
  #for drawing graph
 layout = nx.spring_layout(G)
-nx.draw(G, layout, with_labels=True)
+nx.draw(H, layout, with_labels=True)
 #labels = nx.get_edge_attributes(G, "weight")
 #nx.draw_networkx_edge_labels(G, pos=layout, edge_labels=labels)
 plt.savefig("graphH.png")
 plt.clf()
-nx.draw(G, with_labels=True)
+nx.draw(H, with_labels=True)
 plt.savefig("graphG.png")
 

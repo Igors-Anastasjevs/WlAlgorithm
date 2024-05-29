@@ -4,7 +4,7 @@ import time
 import networkx as nx
 
 data = dict()
-for size in range(30, 300):
+for size in range(30, 3000):
     G = nx.path_graph(size)
     H = G.copy()
     data.update({size:[]})
