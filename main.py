@@ -32,7 +32,7 @@ with open('data.csv', 'w', newline='') as f:
     for key in data.keys():
         w.writerow([key]+data[key])
 '''
-nx.isomorphism.GraphMatcher
+
  #for drawing graph
 '''
 layout = nx.spring_layout(G)

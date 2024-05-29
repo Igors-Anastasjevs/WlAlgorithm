@@ -69,7 +69,7 @@ class LabelCompressor():
 def init(graphG, graphH):
     '''
     Initialises dictionaries
-    Labeling 
+    Labeling nodes is based on how many neighbours a node has
     :param graphG: input graph
     :param graphH: input graph
     :return: multiset-labels, labels

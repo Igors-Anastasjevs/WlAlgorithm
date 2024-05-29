@@ -104,6 +104,37 @@ class MyTestCase(unittest.TestCase):
                                           [0, 1, 0, 0],
                                           [1, 1, 0, 0]]), create_using=nx.DiGraph)
         self.assertFalse(WLV2.wlalgV2(g, h))
+    def testInitandisEquivalentinWLV2(self):
+        g = nx.path_graph(4)
+        h = g.copy()
+        multi_label, label = WLV2.init(g, h)
+        ML = {(g, 0): [[1]],
+              (g, 1): [[2]],
+              (g, 2): [[2]],
+              (g, 3): [[1]],
+              (h, 0): [[1]],
+              (h, 1): [[2]],
+              (h, 2): [[2]],
+              (h, 3): [[1]]
+              }
+        self.assertTrue(multi_label, ML)
+        l = {
+            (g, 0): 1,
+            (g, 1): 2,
+            (g, 2): 2,
+            (g, 3): 1,
+            (h, 0): 1,
+            (h, 1): 2,
+            (h, 2): 2,
+            (h, 3): 1
+        }
+        self.assertTrue(l, label)
+        self.assertTrue(WLV2.isEquivalent(l, g, h))
+    def testLabelCompressor(self):
+        g = nx.path_graph(5)
+        lc = WLV2.LabelCompressor(g)
+        self.assertEqual(2, lc.featurelabel)
+
 
 
 if __name__ == '__main__':
