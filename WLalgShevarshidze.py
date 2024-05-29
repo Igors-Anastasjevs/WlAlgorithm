@@ -66,7 +66,43 @@ class LabelCompressor():
             self.featurelabel += 1
             self.features.update({string: self.featurelabel})
             return self.featurelabel
-
+def init(graphG, graphH):
+    '''
+    Initialises dictionaries
+    Labeling 
+    :param graphG: input graph
+    :param graphH: input graph
+    :return: multiset-labels, labels
+    '''
+    multiset_labels = dict()
+    labels = dict()
+    for node in graphG.nodes:
+        labels.update({(graphG, node): countneighbours(node, graphG)})
+    for node in graphH.nodes:
+        labels.update({(graphH, node): countneighbours(node, graphH)})
+    for el in labels.keys():
+        multiset_labels.update({el: [[labels[el]]]})
+    return multiset_labels, labels
+def stringcreation(multiset_labels, labels, i):
+    '''
+    Creates strings for each node
+    :param multiset_labels: multiset of neighbours' labels for each node
+    :param labels: labels for each node
+    :param i: iteration
+    :return: strings for each node
+    '''
+    strings = dict()
+    for el in multiset_labels.keys():
+        multiset_labels[el][i].sort()
+        s = ''
+        for l in multiset_labels[el][i]:
+            s += str(l)
+        s = str(labels[el]) + s
+        if i == 0:
+            strings.update({el: s})
+        else:
+            strings[el] = s
+    return strings
 
 def wlalgV2(graphG: nx.Graph, graphH: nx.Graph):
     '''
@@ -76,34 +112,18 @@ def wlalgV2(graphG: nx.Graph, graphH: nx.Graph):
     :return: True if graphs are isomorphic, false otherwise
     '''
     if graphG.number_of_nodes() == graphH.number_of_nodes() and graphG.number_of_edges() == graphH.number_of_edges():
-        multiset_labels = dict()
-        labels = dict()
-        strings = dict()
+
         labelcompressor = LabelCompressor(graphG)
         for i in range(graphG.number_of_nodes()):
             if i == 0:
-                for node in graphG.nodes:
-                    labels.update({(graphG, node): countneighbours(node, graphG)})
-                for node in graphH.nodes:
-                    labels.update({(graphH, node): countneighbours(node, graphH)})
-                for el in labels.keys():
-                    multiset_labels.update({el: [[labels[el]]]})
+                multiset_labels, labels = init(graphG, graphH)
             else:
                 for el in multiset_labels.keys():
                     ls = []
                     for neighbours in el[0].neighbors(el[1]):
                         ls.append(labels[(el[0], neighbours)])
                     multiset_labels[el].append(ls)
-            for el in multiset_labels.keys():
-                multiset_labels[el][i].sort()
-                s = ''
-                for l in multiset_labels[el][i]:
-                    s += str(l)
-                s = str(labels[el]) + s
-                if i == 0:
-                    strings.update({el: s})
-                else:
-                    strings[el] = s
+            strings = stringcreation(multiset_labels, labels, i)
             for el in strings.keys():
                 labels[el] = labelcompressor(strings[el])
             if not isEquivalent(labels, graphG, graphH):
