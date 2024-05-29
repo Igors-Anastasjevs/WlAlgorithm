@@ -132,25 +132,26 @@ class MyTestCase(unittest.TestCase):
         self.assertTrue(l, label)
         self.assertTrue(WLV2.isEquivalent(l, g, h))
     def testLabelCompressor(self):
-        g = nx.path_graph(5)
-        h = g.copy()
-        lc = WLV2.LabelCompressor(g)
+        G = nx.path_graph(5)
+        H = G.copy()
+        lc = WLV2.LabelCompressor(G)
         self.assertEqual(2, lc.featurelabel)
-        multiset_labels, labels = WLV2.init(g, h)
+        multiset_labels, labels = WLV2.init(G, H)
         strings = WLV2.stringcreation(multiset_labels, labels, 0)
         for el in strings.keys():
             labels[el] = lc(strings[el])
         correctanswer = {
-            (g, 0): 3,
-            (g, 1): 4,
-            (g, 2): 4,
-            (g, 3): 4,
-            (g, 4): 3,
-            (h, 0): 3,
-            (h, 1): 4,
-            (h, 2): 4,
-            (h, 3): 4,
-            (h, 4): 3
+            (G, 0): 3,
+            (G, 1): 4,
+            (G, 2): 4,
+
+            (G, 3): 4,
+            (G, 4): 3,
+            (H, 0): 3,
+            (H, 1): 4,
+            (H, 2): 4,
+            (H, 3): 4,
+            (H, 4): 3
         }
         self.assertEqual(labels, correctanswer)
     def testStringcreation(self):
