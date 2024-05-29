@@ -2,7 +2,7 @@ import mmh3
 import networkx as nx
 
 
-def wlalg(G:nx.Graph, H:nx.Graph, semfunc=lambda graph, node, neighbour: '{}'):
+def wlalg(G:nx.Graph, H:nx.Graph):
     '''
     Tells if 2 graphs are isomorphic implementing the Weisfeiler-Lehman algorithm
     :param function pointer semfunc: semantic function, expected to work with a graph, a node
@@ -13,7 +13,7 @@ def wlalg(G:nx.Graph, H:nx.Graph, semfunc=lambda graph, node, neighbour: '{}'):
     :return: True if graphs are isomorphic, false otherwise
     '''
     if G.number_of_nodes() == H.number_of_nodes() and G.number_of_edges() == H.number_of_edges():
-        if getCanonicalForm(G, semfunc) == getCanonicalForm(H, semfunc):
+        if getCanonicalForm(G) == getCanonicalForm(H):
             return True
         else:
             return False
@@ -56,7 +56,7 @@ def init(graph:nx.Graph):
     return maps, colours
 
 
-def getColours(graph:nx.Graph, neighbours, colours, i, node, semfunc):
+def getColours(graph:nx.Graph, neighbours, colours, i, node):
     '''
     Returns string of neighbours' colours and adjacent edges' weights
     It concatenates neighbours' colours and result of semantic function
@@ -72,7 +72,7 @@ def getColours(graph:nx.Graph, neighbours, colours, i, node, semfunc):
     scolours = ''
     array = []
     for el in neighbours:
-        array.append(str(colours[el][i - 1]) + semfunc(graph, node, el))
+        array.append(str(colours[el][i - 1]))
     array.sort()
     for el in array:
         scolours += el
@@ -80,7 +80,7 @@ def getColours(graph:nx.Graph, neighbours, colours, i, node, semfunc):
     return scolours
 
 
-def colouringNodes(graph:nx.Graph, colours, i, semfunc):
+def colouringNodes(graph:nx.Graph, colours, i):
     '''
     Returns new colourings of nodes in the graph, preserving the old ones
     :param function pointer semfunc: semantic function, see 'def wlalg'
@@ -91,7 +91,7 @@ def colouringNodes(graph:nx.Graph, colours, i, semfunc):
     '''
     for node in graph.nodes:
         neighbours = graph.neighbors(node)
-        colours[node].append(mmh3.hash(getColours(graph, neighbours, colours, i, node, semfunc)))
+        colours[node].append(mmh3.hash(getColours(graph, neighbours, colours, i, node)))
     return colours
 
 
@@ -112,7 +112,7 @@ def sortingNodes(colours, i):
     return map
 
 
-def getCanonicalForm(graph, semfunc):
+def getCanonicalForm(graph):
     '''
     Returns canonical form of the input graph
     :param function pointer semfunc: semantic function, see 'def wlalg'
@@ -122,7 +122,7 @@ def getCanonicalForm(graph, semfunc):
     maps, colours = init(graph)
     i = 1
     while i < len(graph.nodes):
-        colours = colouringNodes(graph, colours, i, semfunc)
+        colours = colouringNodes(graph, colours, i)
         map = sortingNodes(colours, i)
         maps.append(map)
         if similarity(maps[i - 1], maps[i]):

@@ -8,10 +8,10 @@ class MyTestCase(unittest.TestCase):
 
     def testGetCanonicalForm(self):
         G = nx.path_graph(5)
-        CG = WLalg.getCanonicalForm(G, lambda g,n,ne: '{}')
-        hash1 = mmh3.hash(str(mmh3.hash('11{}'))+str(mmh3.hash('11{}1{}'))+'{}')
-        hash2 = mmh3.hash(str(mmh3.hash('11{}1{}'))+str(mmh3.hash('11{}1{}'))+'{}'+str(mmh3.hash('11{}'))+'{}')
-        hash3 = mmh3.hash(str(mmh3.hash('11{}1{}'))+str(mmh3.hash('11{}1{}'))+'{}'+str(mmh3.hash('11{}1{}'))+'{}')
+        CG = WLalg.getCanonicalForm(G)
+        hash1 = mmh3.hash(str(mmh3.hash('11'))+str(mmh3.hash('111')))
+        hash2 = mmh3.hash(str(mmh3.hash('111'))+str(mmh3.hash('11'))+str(mmh3.hash('111')))
+        hash3 = mmh3.hash(str(mmh3.hash('111'))+str(mmh3.hash('111'))+str(mmh3.hash('111')))
         self.assertEqual({hash3: 1, hash2: 2, hash1: 2}, CG)
 
     def testSimilarity(self):
@@ -67,14 +67,14 @@ class MyTestCase(unittest.TestCase):
 
     def testGetColours(self):
         G = nx.path_graph(5)
-        scolours = WLalg.getColours(G, G.neighbors(1), {0: [1], 1: [1], 2: [1], 3: [1], 4: [1]}, 1, 1,lambda g,n,ne: '{}')
-        self.assertEqual('11{}1{}', scolours)
+        scolours = WLalg.getColours(G, G.neighbors(1), {0: [1], 1: [1], 2: [1], 3: [1], 4: [1]}, 1, 1)
+        self.assertEqual('111', scolours)
 
     def testColouringNodes(self):
         G = nx.path_graph(5)
-        colours = WLalg.colouringNodes(G, {0: [1], 1: [1], 2: [1], 3: [1], 4: [1]}, 1, lambda g,n,ne: '{}')
-        self.assertEqual({0: [1, mmh3.hash('11{}')], 1: [1, mmh3.hash('11{}1{}')],
-                          2: [1, mmh3.hash('11{}1{}')], 3: [1, mmh3.hash('11{}1{}')], 4: [1, mmh3.hash('11{}')]}, colours)
+        colours = WLalg.colouringNodes(G, {0: [1], 1: [1], 2: [1], 3: [1], 4: [1]}, 1)
+        self.assertEqual({0: [1, mmh3.hash('11')], 1: [1, mmh3.hash('111')],
+                          2: [1, mmh3.hash('111')], 3: [1, mmh3.hash('111')], 4: [1, mmh3.hash('11')]}, colours)
 
     def testSortingNodes(self):
         C = {0: [1, -1], 1: [1, -2], 2: [1, -2], 3: [1, -2], 4: [1, -1]}
