@@ -3,11 +3,11 @@ Introduction
 This repository is for implementation Weisfeiler-Lehman algorithm in 2 ways
 for "Weisfeiler-Lehman Algorithm" Final Year Project(COMP3931) in University of Leeds
 on 3rd year of Computing Science with Artifitial Inteligence course by Igors Anastasjevs (fy18ia).
-These modules were created in order to compare performances of both variants of Weisfeiler-Lehman Algorithm[1,2]
-with VF2, implemented in NetworkX[3].
+These modules were created in order to compare performances of both variants of Weisfeiler-Lehman Algorithm(1,2)
+with VF2, implemented in NetworkX(3).
 
-WLalg.py has Weisfeiler-Lehman algorithm, described in D. Bieber's publication[1].
-WLalgShevashidze.py has Weisfeiler-Lehman algorithm, described in N. Shevashidze's and co-authors' paper[2].
+WLalg.py has Weisfeiler-Lehman algorithm, described in D. Bieber's publication(1).
+WLalgShevashidze.py has Weisfeiler-Lehman algorithm, described in N. Shevashidze's and co-authors' paper(2).
 testWL.py has test cases for WLalg.py functions.
 testWLShevashidze.py has test cases for WLalgShevashidze.py functions.
 savedata.py is a module with functions, which helps measure performances of algorithms of graph isomorphism determination, compatible with
