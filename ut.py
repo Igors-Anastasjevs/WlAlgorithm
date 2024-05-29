@@ -3,7 +3,7 @@ import mmh3
 import numpy as np
 import WLalg
 import networkx as nx
-import WLaldShevarshidze as WLV2
+import WLalgShevarshidze as WLV2
 class MyTestCase(unittest.TestCase):
 
     def testGetCanonicalForm(self):
