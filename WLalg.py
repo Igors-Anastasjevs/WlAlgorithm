@@ -4,7 +4,8 @@ import networkx as nx
 
 def wlalg(G:nx.Graph, H:nx.Graph):
     '''
-    Tells if 2 graphs are isomorphic implementing the Weisfeiler-Lehman algorithm
+    Tells if 2 graphs are isomorphic implementing the Weisfeiler-Lehman algorithm describer in D. Bieber's
+    publication "The Weisfeiler-Lehman Isomorphism Test"
     :param networkx.Graph G: input graph
     :param networkx.Graph H: input graph
     :return: True if graphs are isomorphic, false otherwise
@@ -17,6 +18,27 @@ def wlalg(G:nx.Graph, H:nx.Graph):
     else:
         return False
 
+def getCanonicalForm(graph):
+    '''
+    Returns canonical form of the input graph
+    :param networkx.Graph graph: input graph
+    :return: dictionary M[i-1]
+    '''
+    maps, colours = init(graph)
+    i = 1
+    while i < len(graph.nodes):
+        colours = colouringNodes(graph, colours, i)
+        map = sortingNodes(colours, i)
+        maps.append(map)
+        if similarity(maps[i - 1], maps[i]):
+            break
+        i += 1
+
+    maps[i - 1] = dict(sorted(maps[i - 1].items()))
+    Canonform = dict()
+    for key in maps[i-1].keys():
+        Canonform.update({key:len(maps[i-1][key])})
+    return Canonform
 
 def similarity(M1, M2):
     '''
@@ -106,25 +128,4 @@ def sortingNodes(colours, i):
     return map
 
 
-def getCanonicalForm(graph):
-    '''
-    Returns canonical form of the input graph
-    :param networkx.Graph graph: input graph
-    :return: dictionary M[i-1]
-    '''
-    maps, colours = init(graph)
-    i = 1
-    while i < len(graph.nodes):
-        colours = colouringNodes(graph, colours, i)
-        map = sortingNodes(colours, i)
-        maps.append(map)
-        if similarity(maps[i - 1], maps[i]):
-            break
-        i += 1
 
-    maps[i - 1] = dict(sorted(maps[i - 1].items()))
-    print(maps[i-1])
-    Canonform = dict()
-    for key in maps[i-1].keys():
-        Canonform.update({key:len(maps[i-1][key])})
-    return Canonform

@@ -1,18 +1,34 @@
 import networkx as nx
-'''
-def countneighbours(node, graph: nx.Graph):
-    ''''''
-    Counts neighbours
-    :param node: input node
-    :param graph: input graph
-    :return: amount of neighbours, which a node has.
-    :rtype:integer
-    ''''''
-    i = 0
-    for n in graph.neighbors(node):
-        i += 1
-    return i
-'''
+
+def wlalgV2(graphG: nx.Graph, graphH: nx.Graph):
+    '''
+    Tells if 2 graphs are isomorphic implementing the Weisfeiler-Lehman algorithm from description from
+    "Weisfeiler-Lehman Graph Kernel"
+    by Shervashidze, N., Schweitzer, P., van Leeuwen, E. J., Mehlhorn, K., Borgwardt, K. M., Bach, F.
+    :param graphG: input graph
+    :param graphH: input graph
+    :return: True if graphs are isomorphic, false otherwise
+    '''
+    if graphG.number_of_nodes() == graphH.number_of_nodes() and graphG.number_of_edges() == graphH.number_of_edges():
+
+        labelcompressor = LabelCompressor(graphG)
+        for i in range(graphG.number_of_nodes()):
+            if i == 0:
+                multiset_labels, labels = init(graphG, graphH)
+            else:
+                for el in multiset_labels.keys():
+                    ls = []
+                    for neighbours in el[0].neighbors(el[1]):
+                        ls.append(labels[(el[0], neighbours)])
+                    multiset_labels[el].append(ls)
+            strings = stringcreation(multiset_labels, labels, i)
+            for el in strings.keys():
+                labels[el] = labelcompressor(strings[el])
+            if not isEquivalent(labels, graphG, graphH):
+                return False
+        return True
+    else:
+        return False
 
 def isEquivalent(labels: dict, graphG: nx.Graph, graphH: nx.Graph):
     '''
@@ -36,8 +52,32 @@ def isEquivalent(labels: dict, graphG: nx.Graph, graphH: nx.Graph):
     else:
         return False
 
-
+def init(graphG, graphH):
+    '''
+    Initialises dictionaries
+    Labeling nodes is based on how many neighbours a node has
+    :param graphG: input graph
+    :param graphH: input graph
+    :return: multiset-labels, labels
+    '''
+    multiset_labels = dict()
+    labels = dict()
+    for node in graphG.nodes:
+        labels.update({(graphG, node): len(graphG._adj[node])})
+    for node in graphH.nodes:
+        labels.update({(graphH, node): len(graphH._adj[node])})
+    for el in labels.keys():
+        multiset_labels.update({el: [[labels[el]]]})
+    return multiset_labels, labels
 class LabelCompressor():
+    '''
+    This is function class, created in order to "compress" labels in order to implement step 3 in Algorithm 1 from [1]
+    As it was written in my paper "Weisfeiler-Lehman Algorithm", "label compression" from [1] is different in comparison
+    to this implementation, as there is no sorting.
+    self.featurelabel is a member variable, integer, used to be assigned as a value to a string as a key.
+    self.features is a dictionary, which has string as a key, which is a collection of nodes' and nodes' neighbours' labels
+    and integer as a value, used as a new compressed label to the string.
+    '''
     def __init__(self, graph: nx.Graph):
         '''
         Initialises itself, i.e. puts maximum amount of neighbours plus 1 as a feature, which is returned
@@ -65,23 +105,7 @@ class LabelCompressor():
             self.featurelabel += 1
             self.features.update({string: self.featurelabel})
             return self.featurelabel
-def init(graphG, graphH):
-    '''
-    Initialises dictionaries
-    Labeling nodes is based on how many neighbours a node has
-    :param graphG: input graph
-    :param graphH: input graph
-    :return: multiset-labels, labels
-    '''
-    multiset_labels = dict()
-    labels = dict()
-    for node in graphG.nodes:
-        labels.update({(graphG, node): len(graphG._adj[node])})
-    for node in graphH.nodes:
-        labels.update({(graphH, node): len(graphH._adj[node])})
-    for el in labels.keys():
-        multiset_labels.update({el: [[labels[el]]]})
-    return multiset_labels, labels
+
 def stringcreation(multiset_labels, labels, i):
     '''
     Creates strings for each node
@@ -103,30 +127,3 @@ def stringcreation(multiset_labels, labels, i):
             strings[el] = s
     return strings
 
-def wlalgV2(graphG: nx.Graph, graphH: nx.Graph):
-    '''
-    Tells if 2 graphs are isomorphic implementing the Weisfeiler-Lehman algorithm, but it works differently
-    :param graphG: input graph
-    :param graphH: input graph
-    :return: True if graphs are isomorphic, false otherwise
-    '''
-    if graphG.number_of_nodes() == graphH.number_of_nodes() and graphG.number_of_edges() == graphH.number_of_edges():
-
-        labelcompressor = LabelCompressor(graphG)
-        for i in range(graphG.number_of_nodes()):
-            if i == 0:
-                multiset_labels, labels = init(graphG, graphH)
-            else:
-                for el in multiset_labels.keys():
-                    ls = []
-                    for neighbours in el[0].neighbors(el[1]):
-                        ls.append(labels[(el[0], neighbours)])
-                    multiset_labels[el].append(ls)
-            strings = stringcreation(multiset_labels, labels, i)
-            for el in strings.keys():
-                labels[el] = labelcompressor(strings[el])
-            if not isEquivalent(labels, graphG, graphH):
-                return False
-        return True
-    else:
-        return False
