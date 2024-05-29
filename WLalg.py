@@ -61,7 +61,6 @@ def getColours(neighbours, colours, i, node):
     Returns string of neighbours' colours and adjacent edges' weights
     It concatenates neighbours' colours and result of semantic function
     :param function pointer semfunc: semantic function, see 'def wlalg'
-    :param networkx.Graph graph: input graph
     :param list neighbours: neighbours of the node
     :param dictionary colours: data of colours in a previous iteration
     :param int i: iteration
