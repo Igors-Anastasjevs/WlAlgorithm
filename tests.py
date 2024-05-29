@@ -67,7 +67,7 @@ class MyTestCase(unittest.TestCase):
 
     def testGetColours(self):
         G = nx.path_graph(5)
-        scolours = WLalg.getColours(G, G.neighbors(1), {0: [1], 1: [1], 2: [1], 3: [1], 4: [1]}, 1, 1)
+        scolours = WLalg.getColours(G.neighbors(1), {0: [1], 1: [1], 2: [1], 3: [1], 4: [1]}, 1, 1)
         self.assertEqual('111', scolours)
 
     def testColouringNodes(self):

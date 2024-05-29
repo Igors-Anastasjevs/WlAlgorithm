@@ -56,7 +56,7 @@ def init(graph:nx.Graph):
     return maps, colours
 
 
-def getColours(graph:nx.Graph, neighbours, colours, i, node):
+def getColours(neighbours, colours, i, node):
     '''
     Returns string of neighbours' colours and adjacent edges' weights
     It concatenates neighbours' colours and result of semantic function
@@ -91,7 +91,7 @@ def colouringNodes(graph:nx.Graph, colours, i):
     '''
     for node in graph.nodes:
         neighbours = graph.neighbors(node)
-        colours[node].append(mmh3.hash(getColours(graph, neighbours, colours, i, node)))
+        colours[node].append(mmh3.hash(getColours(neighbours, colours, i, node)))
     return colours
 
 
