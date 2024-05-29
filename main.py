@@ -10,5 +10,4 @@ import openpyxl as xl
 import WLalgShevarshidze
 
 g = nx.complete_graph(5)
-nx.draw(g)
-plt.show()
+print(WLalg.getCanonicalForm(g))
