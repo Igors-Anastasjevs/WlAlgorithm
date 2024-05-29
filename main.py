@@ -26,13 +26,14 @@ for size in range(30, 300):
         end = time.time()
         data[size].append(end-start)'''
 print(WLalg.wlalg(G,H))
+print(WLalg.getCanonicalForm(G), '\n', WLalg.getCanonicalForm(H))
 '''
 with open('data.csv', 'w', newline='') as f:
     w = csv.writer(f, delimiter=';')
     for key in data.keys():
         w.writerow([key]+data[key])
 '''
-''' for drawing graph
+ #for drawing graph
 layout = nx.spring_layout(G)
 nx.draw(G, layout, with_labels=True)
 #labels = nx.get_edge_attributes(G, "weight")
@@ -41,4 +42,4 @@ plt.savefig("graphH.png")
 plt.clf()
 nx.draw(G, with_labels=True)
 plt.savefig("graphG.png")
-'''
+
