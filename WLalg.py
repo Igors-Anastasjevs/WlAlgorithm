@@ -46,7 +46,7 @@ def init(graph:nx.Graph):
     :param networkx.Graph graph: input graph
     :return: array of dictionary(-ies) maps and dictionary colours
     '''
-    maps = [dict({0: set()})]
+    maps = [dict({0: list()})]
     colours = dict()
     for v in graph.nodes:
         colours.update({v: [1]})
