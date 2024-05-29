@@ -25,7 +25,7 @@ for size in range(30, 300):
         WLalg.wlalg(G, H)
         end = time.time()
         data[size].append(end-start)'''
-print(WLalg.wlalg(g, h))
+print(nx.is_isomorphic(g,h))
 '''
 with open('data.csv', 'w', newline='') as f:
     w = csv.writer(f, delimiter=';')
