@@ -1,3 +1,4 @@
+import WLalg
 import networkx as nx
 import WLalgShevarshidze
 import savedata
