@@ -34,5 +34,5 @@ However, execution of these functions can take about a day long.
 Available from: https://davidbieber.com/post/2019-05-10-weisfeiler-lehman-isomorphism-test/
 2.  Shervashidze, N., Schweitzer, P., van Leeuwen, E. J., Mehlhorn, K., Borgwardt, K. M., Bach, F., ed.
  Weisfeiler-Lehman Graph Kernels, Journal of Machine Learning Research, 2011, 12, article no: 2539-2561
-3.  21.	NetworkX. is_isomorphic. [no date]. [Accessed July 2022] Available from:
+3.  NetworkX. is_isomorphic. [no date]. [Accessed July 2022] Available from:
   https://networkx.org/documentation/stable/reference/algorithms/generated/networkx.algorithms.isomorphism.is_isomorphic.html#networkx.algorithms.isomorphism.is_isomorphic
