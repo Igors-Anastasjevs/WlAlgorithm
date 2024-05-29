@@ -5,6 +5,33 @@ import numpy as np
 
 class WLShevashidzeTestCases(unittest.TestCase):
 
+    def test_Shevashidze(self):
+        '''
+        This test case tests, how WLV2.wlalgV2() states whether graphs are isomorphic or not.
+        '''
+        g = nx.path_graph(5)
+        h = g.copy()
+        self.assertTrue(WLV2.wlalgV2(g, h))
+        g = nx.from_numpy_array(np.array([[0, 1, 1, 0],
+                                          [1, 0, 0, 0],
+                                          [1, 0, 0, 1],
+                                          [0, 0, 1, 0]]), create_using=nx.DiGraph)
+        h = nx.from_numpy_array(np.array([[0, 0, 0, 1],
+                                          [0, 0, 1, 1],
+                                          [0, 1, 0, 0],
+                                          [1, 1, 0, 0]]), create_using=nx.DiGraph)
+        self.assertTrue(WLV2.wlalgV2(g, h))
+
+        g = nx.from_numpy_array(np.array([[0, 1, 1, 0],
+                                          [1, 0, 0, 1],
+                                          [1, 0, 0, 1],
+                                          [0, 0, 1, 0]]), create_using=nx.DiGraph)
+        h = nx.from_numpy_array(np.array([[0, 0, 0, 1],
+                                          [0, 0, 1, 1],
+                                          [0, 1, 0, 0],
+                                          [1, 1, 0, 0]]), create_using=nx.DiGraph)
+        self.assertFalse(WLV2.wlalgV2(g, h))
+
     def test_InitandisEquivalentinWLV2(self):
         '''
         This test case tests, how WLV2.init() initializes maps 'multi_label' and 'label', and WLV2.isEquivalent()
@@ -90,32 +117,7 @@ class WLShevashidzeTestCases(unittest.TestCase):
 
 
 
-    def test_Shevashidze(self):
-        '''
-        This test case tests, how WLV2.wlalgV2() states whether graphs are isomorphic or not.
-        '''
-        g = nx.path_graph(5)
-        h = g.copy()
-        self.assertTrue(WLV2.wlalgV2(g, h))
-        g = nx.from_numpy_array(np.array([[0, 1, 1, 0],
-                                          [1, 0, 0, 0],
-                                          [1, 0, 0, 1],
-                                          [0, 0, 1, 0]]), create_using=nx.DiGraph)
-        h = nx.from_numpy_array(np.array([[0, 0, 0, 1],
-                                          [0, 0, 1, 1],
-                                          [0, 1, 0, 0],
-                                          [1, 1, 0, 0]]), create_using=nx.DiGraph)
-        self.assertTrue(WLV2.wlalgV2(g, h))
 
-        g = nx.from_numpy_array(np.array([[0, 1, 1, 0],
-                                          [1, 0, 0, 1],
-                                          [1, 0, 0, 1],
-                                          [0, 0, 1, 0]]), create_using=nx.DiGraph)
-        h = nx.from_numpy_array(np.array([[0, 0, 0, 1],
-                                          [0, 0, 1, 1],
-                                          [0, 1, 0, 0],
-                                          [1, 1, 0, 0]]), create_using=nx.DiGraph)
-        self.assertFalse(WLV2.wlalgV2(g, h))
 
 if __name__ == '__main__':
     unittest.main()
