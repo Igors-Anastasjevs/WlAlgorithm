@@ -1,23 +1,21 @@
-#from graph import Graph
+
 import time
 import WLalg
 import csv
 import networkx as nx
 import numpy as np
 import matplotlib.pyplot as plt
-
-
-'''A = np.matrix([[0, 1, 0],
-              [1, 0, 1],
-              [0, 1, 0]])
-B = np.matrix([[0, 0, 1],
-              [0, 0, 1],
-              [1, 1, 0]])
-times = []
-G = nx.from_numpy_array(A, create_using=nx.DiGraph())
-H = nx.from_numpy_array(B, create_using=nx.DiGraph())
-'''
-data = dict()
+import unittest
+G = nx.from_numpy_array(np.array([[0,1,1,0],
+                                  [1,0,0,0],
+                                  [1,0,0,1],
+                                  [0,0,1,0]]),create_using=nx.DiGraph)
+H = nx.from_numpy_array(np.array([[0,0,0,1],
+                                  [0,0,1,1],
+                                  [0,1,0,0],
+                                  [1,1,0,0]]),create_using=nx.DiGraph)
+#H = G.copy()
+'''data = dict()
 for size in range(30, 300):
     G = nx.path_graph(size)
     H = G.copy()
@@ -26,8 +24,8 @@ for size in range(30, 300):
         start = time.time()
         WLalg.wlalg(G, H)
         end = time.time()
-        data[size].append(end-start)
-print(data)
+        data[size].append(end-start)'''
+print(WLalg.wlalg(G,H))
 '''
 with open('data.csv', 'w', newline='') as f:
     w = csv.writer(f, delimiter=';')
