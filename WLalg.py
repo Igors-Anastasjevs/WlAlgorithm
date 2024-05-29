@@ -5,9 +5,6 @@ import networkx as nx
 def wlalg(G:nx.Graph, H:nx.Graph):
     '''
     Tells if 2 graphs are isomorphic implementing the Weisfeiler-Lehman algorithm
-    :param function pointer semfunc: semantic function, expected to work with a graph, a node
-    and one of the node's neighbour, be compatible with NetworkX library and return string value
-    for proper colouring of node in a graph. Returns '{}' by default
     :param networkx.Graph G: input graph
     :param networkx.Graph H: input graph
     :return: True if graphs are isomorphic, false otherwise
@@ -60,7 +57,6 @@ def getColours(neighbours, colours, i, node):
     '''
     Returns string of neighbours' colours and adjacent edges' weights
     It concatenates neighbours' colours and result of semantic function
-    :param function pointer semfunc: semantic function, see 'def wlalg'
     :param list neighbours: neighbours of the node
     :param dictionary colours: data of colours in a previous iteration
     :param int i: iteration
@@ -82,7 +78,6 @@ def getColours(neighbours, colours, i, node):
 def colouringNodes(graph:nx.Graph, colours, i):
     '''
     Returns new colourings of nodes in the graph, preserving the old ones
-    :param function pointer semfunc: semantic function, see 'def wlalg'
     :param networkx.Graph graph: input graph
     :param dictionary colours: data of colours in a previous iteration
     :param int i: iteration
@@ -114,7 +109,6 @@ def sortingNodes(colours, i):
 def getCanonicalForm(graph):
     '''
     Returns canonical form of the input graph
-    :param function pointer semfunc: semantic function, see 'def wlalg'
     :param networkx.Graph graph: input graph
     :return: dictionary M[i-1]
     '''
