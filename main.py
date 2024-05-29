@@ -18,7 +18,7 @@ G = nx.from_numpy_array(A, create_using=nx.DiGraph())
 H = nx.from_numpy_array(B, create_using=nx.DiGraph())
 '''
 data = dict()
-for size in range(30, 61):
+for size in range(30, 300):
     G = nx.path_graph(size)
     H = G.copy()
     data.update({size:[]})
@@ -27,10 +27,13 @@ for size in range(30, 61):
         WLalg.wlalg(G, H)
         end = time.time()
         data[size].append(end-start)
+print(data)
+'''
 with open('data.csv', 'w', newline='') as f:
     w = csv.writer(f, delimiter=';')
     for key in data.keys():
         w.writerow([key]+data[key])
+'''
 ''' for drawing graph
 layout = nx.spring_layout(G)
 nx.draw(G, layout, with_labels=True)
