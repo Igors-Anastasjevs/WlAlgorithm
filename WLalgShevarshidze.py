@@ -73,6 +73,7 @@ def init(graphG, graphH):
     for el in labels.keys():
         multiset_labels.update({el: [[labels[el]]]})
     return multiset_labels, labels
+
 class LabelCompressor():
     '''
     This is function class, created in order to "compress" labels in order to implement step 3 in Algorithm 1 from [4]
