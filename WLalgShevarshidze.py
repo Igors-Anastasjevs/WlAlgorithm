@@ -11,10 +11,10 @@ def wlalgV2(graphG: nx.Graph, graphH: nx.Graph):
     '''
     if graphG.number_of_nodes() == graphH.number_of_nodes() and graphG.number_of_edges() == graphH.number_of_edges():
 
-        labelcompressor = LabelCompressor(graphG)
         for i in range(graphG.number_of_nodes()):
             if i == 0:
                 multiset_labels, labels = init(graphG, graphH)
+                labelcompressor = LabelCompressor(labels)
             else:
                 for el in multiset_labels.keys():
                     ls = []
@@ -84,17 +84,16 @@ class LabelCompressor():
     and integer as a value, used as a new compressed label to the string.
     This functor implements step 3 from Algorithm 1 from "Weisfeiler-Lehman Graph Kernel"
     '''
-    def __init__(self, graph: nx.Graph):
+    def __init__(self, labels):
         '''
         Initialises itself, i.e. puts maximum amount of neighbours plus 1 as a feature, which is returned
         from this functor as element of its codomain
         :param graph: input graph
         '''
         self.featurelabel = 0
-        for node in graph.nodes():
-            cn = len(graph._adj[node])
-            if cn > self.featurelabel:
-                self.featurelabel = cn + 1
+        for label in labels.value():
+            if label > self.featurelabel:
+                self.featurelabel = label + 1
         self.features = dict()
 
     def __call__(self, string):
