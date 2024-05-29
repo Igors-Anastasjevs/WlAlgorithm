@@ -4,8 +4,8 @@ import networkx as nx
 
 def wlalg(G:nx.Graph, H:nx.Graph):
     '''
-    Tells if 2 graphs are isomorphic implementing the Weisfeiler-Lehman algorithm describer in D. Bieber's
-    publication "The Weisfeiler-Lehman Isomorphism Test"
+    Tells if 2 graphs are isomorphic implementing the Weisfeiler-Lehman algorithm described in D. Bieber's
+    publication "The Weisfeiler-Lehman Isomorphism Test"[1]
     :param networkx.Graph G: input graph
     :param networkx.Graph H: input graph
     :return: True if graphs are isomorphic, false otherwise
@@ -21,6 +21,7 @@ def wlalg(G:nx.Graph, H:nx.Graph):
 def getCanonicalForm(graph):
     '''
     Returns canonical form of the input graph
+    Implements function "Canon" in Figure 3 in my paper "Weisfeiler-Lehman algorithm" made from D. Bieber's description[1]
     :param networkx.Graph graph: input graph
     :return: dictionary M[i-1]
     '''
@@ -48,6 +49,7 @@ def similarity(M1, M2):
     M1 = {-1915682609: {0, 4}, 985128023: {1, 3}, -776426510: {2}}
     M2 = {-959085024: {2}, 1018889979: {1, 3}, 1023573415: {0, 4}}
     are considered similar, since they have same sets {0, 4}, {1, 3} and {2}
+    Implements line 28 in Figure 3 in my paper "Weisfeiler-Lehman algorithm" made from D. Bieber's description[1].
     :param dictionary M1: input dictionary
     :param dictionary M2: input dictionary
     :return: True if both dicts contain exactly the same sets of values
@@ -63,8 +65,9 @@ def similarity(M1, M2):
 def init(graph:nx.Graph):
     '''
     Initialises array maps and dictionary.
-    In detail it returns array with dictionary with 0 as key and empty set as value in order to properly compare
-    2 dicts at first iteration
+    In detail, it returns array with dictionary with 0 as key and empty set as value in order to properly compare
+    2 dicts at first iteration.(line 17 in Figure 3 in my paper "Weisfeiler-Lehman algorithm" made from D. Bieber's description[1]).
+    This function implements lines from 13 to 17 from Figure 3 in my paper.
     :param networkx.Graph graph: input graph
     :return: array of dictionary(-ies) maps and dictionary colours
     '''
@@ -78,7 +81,9 @@ def init(graph:nx.Graph):
 def getColours(neighbours, colours, i, node):
     '''
     Returns string of neighbours' colours and adjacent edges' weights
-    It concatenates neighbours' colours and result of semantic function
+    It concatenates neighbours' colours and result of semantic function.
+    This function implements lines from 20 to 21 from Figure 3 in my paper "Weisfeiler-Lehman algorithm"
+    made from D. Bieber's description[1].
     :param list neighbours: neighbours of the node
     :param dictionary colours: data of colours in a previous iteration
     :param int i: iteration
@@ -99,7 +104,9 @@ def getColours(neighbours, colours, i, node):
 
 def colouringNodes(graph:nx.Graph, colours, i):
     '''
-    Returns new colourings of nodes in the graph, preserving the old ones
+    Returns new colourings of nodes in the graph, preserving the old ones.
+    This function implements line 22 from Figure 3 in my paper "Weisfeiler-Lehman algorithm"
+    made from D. Bieber's description[1].
     :param networkx.Graph graph: input graph
     :param dictionary colours: data of colours in a previous iteration
     :param int i: iteration
@@ -113,7 +120,9 @@ def colouringNodes(graph:nx.Graph, colours, i):
 
 def sortingNodes(colours, i):
     '''
-    Sorts nodes by their colourings
+    Sorts nodes by their colourings.
+    This function implements lines from 23 to 26 from Figure 3 in my paper "Weisfeiler-Lehman algorithm"
+    made from D. Bieber's description[1].
     :param dictionary colours: new colours
     :param int i: iteration
     :return: dictionary of sorted nodes

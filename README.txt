@@ -1,7 +1,10 @@
 Introduction
 This repository is for implementation Weisfeiler-Lehman algorithm in 2 ways
 for "Weisfeiler-Lehman Algorithm" Final Year Project(COMP3931) in University of Leeds
-on 3rd year of Computing Science with Artifitial Inteligence course by Igors Anastasjevs (fy18ia)
+on 3rd year of Computing Science with Artifitial Inteligence course by Igors Anastasjevs (fy18ia).
+These modules were created in order to compare performances of both variants of Weisfeiler-Lehman Algorithm[1,4]
+with VF2, implemented in NetworkX[21].
+
 WLalg.py has Weisfeiler-Lehman algorithm, described in D. Bieber's publication[1].
 WLalgShevashidze.py has Weisfeiler-Lehman algorithm, described in N. Shevashidze's and co-authors' paper[4].
 testWL.py has test cases for WLalg.py functions.
@@ -19,5 +22,6 @@ I used "unittest" module in order to create test cases.
 Unit tests are launched by command "python -m unittest", being in "WLalgorithm" directory.
 
 How to get results
-In order to reproduce my results, type in command line "python main.py".
+In order to reproduce my results, type in command line "python main.py". Results will be seen in changed/created files
+in "output" directory.
 However, execution of these functions can take about a day long.

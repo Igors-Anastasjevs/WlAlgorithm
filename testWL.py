@@ -8,30 +8,30 @@ class WLTestCases(unittest.TestCase):
 
     def test_Similarity(self):
         '''
-        This test case tests, how WLalg.similarity()
+        This test case tests, how WLalg.similarity() detects similarity between dictionaries.
         '''
         M1 = {
-            4:{"1022", "2321", "1231"},
-            5:{"1343", "1242", "2343"}
+            4:{1, 2, 3},
+            5:{4, 5, 6}
         }
         M2 = {
-            6: {"1022", "2321", "1231"},
-            7: {"1343", "1242", "2343"}
+            6: {1, 2, 3},
+            7: {4, 5, 6}
         }
         self.assertTrue(WLalg.similarity(M1, M2))
         M1 = {
-            4: {"1022", "2321", "1231"},
-            5: {"1343", "1242", "2343"}
+            4: {1, 2, 3},
+            5: {4, 5, 6}
         }
         M2 = {
-            6: {"1022", "2321", "1231", "1002"},
-            7: {"1343", "1242", "2343"}
+            6: {1, 2, 3},
+            7: {4, 5, 6, 7}
         }
         self.assertFalse(WLalg.similarity(M1, M2))
 
     def test_Init(self):
         '''
-        This test case tests how WLalg.init() works
+        This test case tests how Wlalg.init() inititalizes array of maps m and map c.
         '''
         graph = nx.path_graph(3)
         m,c = WLalg.init(graph)
@@ -40,11 +40,10 @@ class WLTestCases(unittest.TestCase):
         self.assertEqual(1, len(m))
         self.assertEqual(3, len(c))
 
-
-
     def test_GetColours(self):
         '''
-        This small test case tests, how WLalg.getColours() works
+        This small test case tests, how WLalg.getColours() collects labels/colours from 5-node graph G for node 1 at
+        iteration 1.
         '''
         G = nx.path_graph(5)
         scolours = WLalg.getColours(G.neighbors(1), {0: [1], 1: [1], 2: [1], 3: [1], 4: [1]}, 1, 1)
@@ -52,7 +51,7 @@ class WLTestCases(unittest.TestCase):
 
     def test_ColouringNodes(self):
         '''
-        This small test case tests, how WLalg.colouringNodes() works
+        This small test case tests, how WLalg.colouringNodes() labels nodes in 5-node graph G at iteration 1.
         '''
         G = nx.path_graph(5)
         colours = WLalg.colouringNodes(G, {0: [1], 1: [1], 2: [1], 3: [1], 4: [1]}, 1)
@@ -61,7 +60,8 @@ class WLTestCases(unittest.TestCase):
 
     def test_SortingNodes(self):
         '''
-        This small test case tests, how WLalg.sortingNodes() works
+        This small test case tests, how WLalg.sortingNodes() sorts all nodes by their colours into 'map' dictionary
+        at iteration 1.
         '''
         C = {0: [1, -1], 1: [1, -2], 2: [1, -2], 3: [1, -2], 4: [1, -1]}
         map = WLalg.sortingNodes(C, 1)
@@ -79,7 +79,7 @@ class WLTestCases(unittest.TestCase):
 
     def test_WLalg(self):
         '''
-        This test case tests how WLalg.wlalg() works.
+        This test case tests how WLalg.wlalg() states whether graphs are isomorphic or not.
         '''
         g = nx.path_graph(5)
         h = g.copy()

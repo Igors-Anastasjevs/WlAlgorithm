@@ -7,7 +7,8 @@ class WLShevashidzeTestCases(unittest.TestCase):
 
     def test_InitandisEquivalentinWLV2(self):
         '''
-        This test case tests, how WLV2.init() and WLV2.isEquivalent() work
+        This test case tests, how WLV2.init() initializes maps 'multi_label' and 'label', and WLV2.isEquivalent()
+        states, whether 2 graphs have same set of labels.
         '''
         g = nx.path_graph(4)
         h = g.copy()
@@ -35,9 +36,34 @@ class WLShevashidzeTestCases(unittest.TestCase):
         self.assertTrue(l, label)
         self.assertTrue(WLV2.isEquivalent(l, g, h))
 
+    def test_Stringcreation(self):
+        '''
+        This test case tests, how WLV2.stringcreation() collects each node's and its neighbours' labels.
+        '''
+        g = nx.path_graph(5)
+        h = g.copy()
+        lc = WLV2.LabelCompressor(g)
+        self.assertEqual(2, lc.featurelabel)
+        multiset_labels, labels = WLV2.init(g, h)
+        strings = WLV2.stringcreation(multiset_labels, labels, 0)
+        correctanswer = {
+            (g, 0): '11',
+            (g, 1): '22',
+            (g, 2): '22',
+            (g, 3): '22',
+            (g, 4): '11',
+            (h, 0): '11',
+            (h, 1): '22',
+            (h, 2): '22',
+            (h, 3): '22',
+            (h, 4): '11'
+        }
+        self.assertEqual(strings, correctanswer)
+
     def test_LabelCompressor(self):
         '''
-        This test case tests, how methods of WLV2.LabelCompressor() work.
+        This test case tests, how methods of WLV2.LabelCompressor() work. i.e. if LabelCompressor.featurelabel is set
+        in a right way for both identical 5-node graphs G and H, and if labels were compressed in a right way.
         '''
         G = nx.path_graph(5)
         H = G.copy()
@@ -62,33 +88,11 @@ class WLShevashidzeTestCases(unittest.TestCase):
         }
         self.assertEqual(labels, correctanswer)
 
-    def test_Stringcreation(self):
-        '''
-        This test case tests, how WLV2.stringcreation() works
-        '''
-        g = nx.path_graph(5)
-        h = g.copy()
-        lc = WLV2.LabelCompressor(g)
-        self.assertEqual(2, lc.featurelabel)
-        multiset_labels, labels = WLV2.init(g, h)
-        strings = WLV2.stringcreation(multiset_labels, labels, 0)
-        correctanswer = {
-            (g, 0): '11',
-            (g, 1): '22',
-            (g, 2): '22',
-            (g, 3): '22',
-            (g, 4): '11',
-            (h, 0): '11',
-            (h, 1): '22',
-            (h, 2): '22',
-            (h, 3): '22',
-            (h, 4): '11'
-        }
-        self.assertEqual(strings, correctanswer)
+
 
     def test_Shevashidze(self):
         '''
-        This test case tests, how WLV2.wlalgV2() works.
+        This test case tests, how WLV2.wlalgV2() states whether graphs are isomorphic or not.
         '''
         g = nx.path_graph(5)
         h = g.copy()

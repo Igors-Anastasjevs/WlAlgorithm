@@ -4,7 +4,7 @@ def wlalgV2(graphG: nx.Graph, graphH: nx.Graph):
     '''
     Tells if 2 graphs are isomorphic implementing the Weisfeiler-Lehman algorithm from description from
     "Weisfeiler-Lehman Graph Kernel"
-    by Shervashidze, N., Schweitzer, P., van Leeuwen, E. J., Mehlhorn, K., Borgwardt, K. M., Bach, F.
+    by Shervashidze, N., Schweitzer, P., van Leeuwen, E. J., Mehlhorn, K., Borgwardt, K. M., Bach, F.[4].
     :param graphG: input graph
     :param graphH: input graph
     :return: True if graphs are isomorphic, false otherwise
@@ -32,7 +32,9 @@ def wlalgV2(graphG: nx.Graph, graphH: nx.Graph):
 
 def isEquivalent(labels: dict, graphG: nx.Graph, graphH: nx.Graph):
     '''
-    Checks if 2 graphs have same labels
+    Checks if 2 graphs have same labels.
+    This function was not in Algorithm 1 from "Weisfeiler-Lehman Graph Kernel", but the paper says algorithm should finish
+    "if the sets of newly created labels are not identical in G and G'" from page 2543 [4].
     :param dictionary labels: list of labels
     :param graphG: input graph
     :param graphH: input graph
@@ -55,7 +57,9 @@ def isEquivalent(labels: dict, graphG: nx.Graph, graphH: nx.Graph):
 def init(graphG, graphH):
     '''
     Initialises dictionaries
-    Labeling nodes is based on how many neighbours a node has
+    Labeling nodes is based on how many neighbours a node has.
+    This function implements step 1 from Algorithm 1 from "Weisfeiler-Lehman Graph Kernel" [4]
+    under condition that graph is not pre-labeled, and it is first iteration.
     :param graphG: input graph
     :param graphH: input graph
     :return: multiset-labels, labels
@@ -71,12 +75,13 @@ def init(graphG, graphH):
     return multiset_labels, labels
 class LabelCompressor():
     '''
-    This is function class, created in order to "compress" labels in order to implement step 3 in Algorithm 1 from [1]
-    As it was written in my paper "Weisfeiler-Lehman Algorithm", "label compression" from [1] is different in comparison
+    This is function class, created in order to "compress" labels in order to implement step 3 in Algorithm 1 from [4]
+    As it was written in my paper "Weisfeiler-Lehman Algorithm", "label compression" from [4] is different in comparison
     to this implementation, as there is no sorting.
     self.featurelabel is a member variable, integer, used to be assigned as a value to a string as a key.
     self.features is a dictionary, which has string as a key, which is a collection of nodes' and nodes' neighbours' labels
     and integer as a value, used as a new compressed label to the string.
+    This functor implements step 3 from Algorithm 1 from "Weisfeiler-Lehman Graph Kernel"
     '''
     def __init__(self, graph: nx.Graph):
         '''
@@ -108,7 +113,8 @@ class LabelCompressor():
 
 def stringcreation(multiset_labels, labels, i):
     '''
-    Creates strings for each node
+    Creates strings for each node.
+    This function implements step 2 from Algorithm 1 from "Weisfeiler-Lehman Graph Kernel" [4].
     :param multiset_labels: multiset of neighbours' labels for each node
     :param labels: labels for each node
     :param i: iteration
