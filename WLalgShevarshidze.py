@@ -84,14 +84,14 @@ class LabelCompressor():
     and integer as a value, used as a new compressed label to the string.
     This functor implements step 3 from Algorithm 1 from "Weisfeiler-Lehman Graph Kernel"
     '''
-    def __init__(self, labels):
+    def __init__(self, labels:dict):
         '''
         Initialises itself, i.e. puts maximum amount of neighbours plus 1 as a feature, which is returned
         from this functor as element of its codomain
-        :param graph: input graph
+        :param labels: input dictionary
         '''
         self.featurelabel = 0
-        for label in labels.value():
+        for label in labels.values():
             if label > self.featurelabel:
                 self.featurelabel = label + 1
         self.features = dict()

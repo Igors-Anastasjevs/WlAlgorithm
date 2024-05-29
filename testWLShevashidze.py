@@ -69,8 +69,6 @@ class WLShevashidzeTestCases(unittest.TestCase):
         '''
         g = nx.path_graph(5)
         h = g.copy()
-        lc = WLV2.LabelCompressor(g)
-        self.assertEqual(2, lc.featurelabel)
         multiset_labels, labels = WLV2.init(g, h)
         strings = WLV2.stringcreation(multiset_labels, labels, 0)
         correctanswer = {
@@ -94,9 +92,9 @@ class WLShevashidzeTestCases(unittest.TestCase):
         '''
         G = nx.path_graph(5)
         H = G.copy()
-        lc = WLV2.LabelCompressor(G)
-        self.assertEqual(2, lc.featurelabel)
         multiset_labels, labels = WLV2.init(G, H)
+        lc = WLV2.LabelCompressor(labels)
+        self.assertEqual(2, lc.featurelabel)
         strings = WLV2.stringcreation(multiset_labels, labels, 0)
         for el in strings.keys():
             labels[el] = lc(strings[el])
