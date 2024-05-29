@@ -56,7 +56,7 @@ def init(graph:nx.Graph):
     return maps, colours
 
 
-def getColours(graph, neighbours, colours, i, node, semfunc):
+def getColours(graph:nx.Graph, neighbours, colours, i, node, semfunc):
     '''
     Returns string of neighbours' colours and adjacent edges' weights
     It concatenates neighbours' colours and result of semantic function
@@ -80,7 +80,7 @@ def getColours(graph, neighbours, colours, i, node, semfunc):
     return scolours
 
 
-def colouringNodes(graph, colours, i, semfunc):
+def colouringNodes(graph:nx.Graph, colours, i, semfunc):
     '''
     Returns new colourings of nodes in the graph, preserving the old ones
     :param function pointer semfunc: semantic function, see 'def wlalg'

@@ -1,19 +1,18 @@
 import networkx as nx
-
-
+'''
 def countneighbours(node, graph: nx.Graph):
-    '''
+    ''''''
     Counts neighbours
     :param node: input node
     :param graph: input graph
     :return: amount of neighbours, which a node has.
     :rtype:integer
-    '''
+    ''''''
     i = 0
     for n in graph.neighbors(node):
         i += 1
     return i
-
+'''
 
 def isEquivalent(labels: dict, graphG: nx.Graph, graphH: nx.Graph):
     '''
@@ -47,7 +46,7 @@ class LabelCompressor():
         '''
         self.featurelabel = 0
         for node in graph.nodes():
-            cn = countneighbours(node, graph)
+            cn = len(graph._adj[node])
             if cn > self.featurelabel:
                 self.featurelabel = cn + 1
         self.features = dict()
@@ -77,9 +76,9 @@ def init(graphG, graphH):
     multiset_labels = dict()
     labels = dict()
     for node in graphG.nodes:
-        labels.update({(graphG, node): countneighbours(node, graphG)})
+        labels.update({(graphG, node): len(graphG._adj[node])})
     for node in graphH.nodes:
-        labels.update({(graphH, node): countneighbours(node, graphH)})
+        labels.update({(graphH, node): len(graphH._adj[node])})
     for el in labels.keys():
         multiset_labels.update({el: [[labels[el]]]})
     return multiset_labels, labels

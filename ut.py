@@ -80,6 +80,7 @@ class MyTestCase(unittest.TestCase):
         C = {0: [1, -1], 1: [1, -2], 2: [1, -2], 3: [1, -2], 4: [1, -1]}
         map = WLalg.sortingNodes(C, 1)
         self.assertEqual({-1: {0, 4}, -2: {1, 2, 3}},map)
+
     def testShevashidze(self):
 
         g = nx.path_graph(5)
@@ -132,10 +133,46 @@ class MyTestCase(unittest.TestCase):
         self.assertTrue(WLV2.isEquivalent(l, g, h))
     def testLabelCompressor(self):
         g = nx.path_graph(5)
+        h = g.copy()
         lc = WLV2.LabelCompressor(g)
         self.assertEqual(2, lc.featurelabel)
-
-
+        multiset_labels, labels = WLV2.init(g, h)
+        strings = WLV2.stringcreation(multiset_labels, labels, 0)
+        for el in strings.keys():
+            labels[el] = lc(strings[el])
+        correctanswer = {
+            (g, 0): 3,
+            (g, 1): 4,
+            (g, 2): 4,
+            (g, 3): 4,
+            (g, 4): 3,
+            (h, 0): 3,
+            (h, 1): 4,
+            (h, 2): 4,
+            (h, 3): 4,
+            (h, 4): 3
+        }
+        self.assertEqual(labels, correctanswer)
+    def testStringcreation(self):
+        g = nx.path_graph(5)
+        h = g.copy()
+        lc = WLV2.LabelCompressor(g)
+        self.assertEqual(2, lc.featurelabel)
+        multiset_labels, labels = WLV2.init(g, h)
+        strings = WLV2.stringcreation(multiset_labels, labels, 0)
+        correctanswer = {
+            (g, 0): '11',
+            (g, 1): '22',
+            (g, 2): '22',
+            (g, 3): '22',
+            (g, 4): '11',
+            (h, 0): '11',
+            (h, 1): '22',
+            (h, 2): '22',
+            (h, 3): '22',
+            (h, 4): '11'
+        }
+        self.assertEqual(strings, correctanswer)
 
 if __name__ == '__main__':
     unittest.main()

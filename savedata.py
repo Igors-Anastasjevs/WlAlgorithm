@@ -3,9 +3,9 @@ import WLalg
 import time
 import networkx as nx
 import WLalgShevarshidze as WLV2
-def generategraphs(graphgenerator):
+def generategraphs(graphgenerator, range):
     graphs = dict()
-    for i in range(30, 1510, 10 ):
+    for i in range:
         graph = graphgenerator(i)
         graphs.update({i:graph})
     return graphs
@@ -32,7 +32,9 @@ def savedata(filename, graphs:dict, graphisomorthismfunction):
             ws.cell(row=i, column=j + 2, value=data[key][j])
         i += 1
     wb.save(filename=filename)
-graphs = generategraphs(nx.path_graph)
+#graphs = generategraphs(nx.path_graph, range(30, 1510, 10))
+#savedata('data2.xlsx', graphs, WLV2.wlalgV2)
+graphs = generategraphs(nx.complete_graph, range(30, 610, 10))
+#savedata('data6.xlsx',graphs, nx.is_isomorphic)
+savedata('data5.xlsx', graphs, WLV2.wlalgV2)
 
-savedata('data2.xlsx', graphs, WLV2.wlalgV2)
-savedata('data3.xlsx',graphs, nx.is_isomorphic)
